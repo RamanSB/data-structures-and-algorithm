@@ -19,7 +19,27 @@ public class Tree {
     Node root = null;
 
     Node insert(int data){
-
+        Node nodeToInsert = new Node(data);
+        Node current = root;
+        Node parentNode;
+        while(true){
+            parentNode = current;
+            if(data < current.data){
+                current = current.leftChild;
+                if(current == null){
+                    parentNode.leftChild = nodeToInsert;
+                    break;
+                }
+            }
+            if(data > current.data){
+                current = current.rightChild;
+                if(current == null){
+                    parentNode.rightChild = nodeToInsert;
+                    break;
+                }
+            }
+        }
+        return nodeToInsert;
     }
 
 
@@ -40,10 +60,17 @@ public class Tree {
         return current;
     }
 
+
+
     public static void main(String[] args){
         Tree tree = new Tree();
         Node rootNode = new Node(30);
         tree.root = rootNode;
+        tree.insert(23);
+        tree.insert(37);
+        tree.insert(12);
+        tree.insert(39);
+        tree.insert(40);
     }
 
 }
