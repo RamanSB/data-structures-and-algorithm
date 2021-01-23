@@ -79,13 +79,61 @@ public class Tree {
         }
     }
 
+    /**
+     * Recursive method use to traverse the tree pre-order (pre-order root, sub-tree of left-child, sub-tree of right child)
+     * When the child node of a localRoot is null - the next recursive invocation of the method will yield the base-case.
+     * @param localRoot
+     */
+    void traversePreOrder(Node localRoot){
+        if(localRoot != null) {
+            System.out.println("Visiting node: " + localRoot.data); //Visiting //Then visit current local root node
+            traversePreOrder(localRoot.leftChild); //Recursively visit all left nodes
+            traversePreOrder(localRoot.rightChild); //Recursively visit all right nodes.
+        }
+    }
+
+    void traversePostOrder(Node localRoot){
+        if(localRoot!=null){
+            traversePostOrder(localRoot.leftChild);
+            traversePostOrder(localRoot.rightChild);
+            System.out.println("Visiting node: " + localRoot.data);
+        }
+    }
+
+    Node minimum(){
+        Node currentNode = root;
+        while(currentNode != null){
+            if(currentNode.leftChild == null){
+                break;
+            }else{
+                currentNode = currentNode.leftChild;
+            }
+        }
+        System.out.println("Minimum Node: " + currentNode);
+        return currentNode;
+    }
+
+    Node maximum(){
+        Node currentNode = root;
+        while(currentNode != null){
+            if(currentNode.rightChild == null){
+                break;
+            } else {
+                currentNode = currentNode.rightChild;
+            }
+        }
+        System.out.format("Max Node: " + currentNode);
+        return currentNode;
+    }
+
 
 
     public static void main(String[] args){
         Tree tree = new Tree();
         Node rootNode = new Node(30);
         tree.root = rootNode;
-        tree.insert(23);
+        Node node23 = tree.insert(23);
+        tree.insert(36);
         tree.insert(37);
         tree.insert(12);
         tree.insert(39);
@@ -93,6 +141,10 @@ public class Tree {
         //Node foundNode = tree.find(14);
         //System.out.println(foundNode);
         tree.traverseInOrder(rootNode);
+        System.out.println("----------");
+        tree.traversePreOrder(rootNode);
+        tree.minimum();
+        tree.maximum();
     }
 
 }
