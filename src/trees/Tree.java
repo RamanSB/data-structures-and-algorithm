@@ -43,6 +43,12 @@ public class Tree {
     }
 
 
+    /**
+     * This has a time complexity of O(log(N)) as for N nodes we only make comparisons equal to the max level (depth) of the tree.
+     * One comparison per level of the tree.
+     * @param data
+     * @return
+     */
     Node find(int data){
         Node current = root;
         while(current.data != data){
@@ -60,6 +66,19 @@ public class Tree {
         return current;
     }
 
+    /**
+     * Recursive method use to traverse the tree in-order (in-order of ascending node value)
+     * When the child node of a localRoot is null - the next recursive invocation of the method will yield the base-case.
+     * @param localRoot
+     */
+    void traverseInOrder(Node localRoot){
+        if(localRoot != null) {
+            traverseInOrder(localRoot.leftChild); //Recursively visit all left nodes
+            System.out.println("Visiting node: " + localRoot.data); //Visiting //Then visit current local root node
+            traverseInOrder(localRoot.rightChild); //Recursively visit all right nodes.
+        }
+    }
+
 
 
     public static void main(String[] args){
@@ -71,6 +90,9 @@ public class Tree {
         tree.insert(12);
         tree.insert(39);
         tree.insert(40);
+        //Node foundNode = tree.find(14);
+        //System.out.println(foundNode);
+        tree.traverseInOrder(rootNode);
     }
 
 }
