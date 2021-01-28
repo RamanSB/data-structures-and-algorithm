@@ -132,7 +132,7 @@ public class Tree {
 
 
     /**
-     * Traversing in (ascending) order without recursion, we use a Stack.
+     * Traversing in (ascending) order without recursion, we use a Stack (because we are traversing the depth of the tree) [dfs]
      * 1) We push the rootNode to the stack & then subsequently iterate through all left children until there are none left,
      *    setting the current node to the left child and pushing them to the stack during each iteration. #nested-while loop
      * 2) We then pop from the stack (left most node) and point the current reference to the popped node.
@@ -157,8 +157,38 @@ public class Tree {
         }
     }
 
+    /**
+     * Traversing pre-Order without recursion, using a Stack (Deque):
+     * Stack is a LIFO structure, hence we add the right children first & the left children last, because we
+     * want to visit the left children first (after the root) & the right child nodes last.
+     * PreOrder: Root, Left, Right
+     * 1) Push the rootNode on to the stack and we will begin iterating from there.
+     * 2) Pop the root node & visit it.
+     * 3) if a right child node exists (push it to the stack)
+     * 4) if a left child node exists (push it to the stack)
+     * 5) iterate until stack is empty.
+     * @param localRoot
+     */
+    void traversePreOrderWithoutRecursion(Node localRoot){
+        Deque<Node> nodeStack = new ArrayDeque<>();
+        Node current = localRoot;
+        nodeStack.push(current); //Start with only the rootNode on the stack - we will visit this 1st
+        while(!nodeStack.isEmpty()){
+            current = nodeStack.pop();
+            visit(current);
+            if(current.rightChild != null){
+                nodeStack.push(current.rightChild);
+            }
+            if(current.leftChild != null){
+                nodeStack.push(current.leftChild);
+            }
+        }
+    }
+
+
+
     void visit(Node node){
-        System.out.println("Visiting node: " + node);
+        System.out.println("Visiting: " + node);
     }
 
 
@@ -168,6 +198,7 @@ public class Tree {
         tree.root = rootNode;
         Node node23 = tree.insert(23);
         tree.insert(36);
+        tree.insert(35);
         tree.insert(37);
         tree.insert(12);
         tree.insert(39);
@@ -176,11 +207,14 @@ public class Tree {
         //System.out.println(foundNode);
         tree.traverseInOrder(rootNode);
         System.out.println("----------");
-       // tree.traversePreOrder(rootNode);
+       tree.traversePreOrder(rootNode);
         tree.minimum();
         tree.maximum();
         System.out.println("\n----------");
-        tree.traverseInOrderWithoutRecursion(rootNode);
+        //tree.traverseInOrderWithoutRecursion(rootNode);
+        tree.traversePreOrderWithoutRecursion(rootNode);
+        System.out.println("\n--------");
+        tree.traversePostOrder(rootNode);
     }
 
 
