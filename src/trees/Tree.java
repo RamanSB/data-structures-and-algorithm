@@ -1,5 +1,9 @@
 package trees;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Stack;
+
 /**
  * This class represents a Binary Search Tree. A binary search tree is a tree that consists of a collection of nodes,
  * whom have at most 2 children (child nodes). Each node contains a piece of data (See the {Node.class}). A Node's left
@@ -127,6 +131,36 @@ public class Tree {
     }
 
 
+    /**
+     * Traversing in (ascending) order without recursion, we use a Stack.
+     * 1) We push the rootNode to the stack & then subsequently iterate through all left children until there are none left,
+     *    setting the current node to the left child and pushing them to the stack during each iteration. #nested-while loop
+     * 2) We then pop from the stack (left most node) and point the current reference to the popped node.
+     * 3) We then visit that node.
+     * 4) We then set the current node to be the right child of the current node
+     * 4 Note: Even if the right child is null, we will set the current value to null because this will ensure we do not re-add the
+     *         left children of the current node as we have already done (this prevents the nested while loop from re-running)
+
+     */
+    void traverseInOrderWithoutRecursion(Node localRoot){
+        Deque<Node> nodeStack = new ArrayDeque<>();
+        Node current = localRoot;
+
+        while(!nodeStack.isEmpty() || current != null){
+            while(current != null){
+                nodeStack.push(current);
+                current = current.leftChild;
+            }
+            current = nodeStack.pop();
+            visit(current);
+            current = current.rightChild;
+        }
+    }
+
+    void visit(Node node){
+        System.out.println("Visiting node: " + node);
+    }
+
 
     public static void main(String[] args){
         Tree tree = new Tree();
@@ -142,9 +176,13 @@ public class Tree {
         //System.out.println(foundNode);
         tree.traverseInOrder(rootNode);
         System.out.println("----------");
-        tree.traversePreOrder(rootNode);
+       // tree.traversePreOrder(rootNode);
         tree.minimum();
         tree.maximum();
+        System.out.println("\n----------");
+        tree.traverseInOrderWithoutRecursion(rootNode);
     }
+
+
 
 }
