@@ -6,11 +6,11 @@ public class Graph {
 
     private static final int MAX_VERTICES = 8*8;
     private List<Vertex> vertexList;
+    static Map<String, Vertex> vertexMap = new HashMap<>();
     private int[][] adjMatrix = new int[8][8];
     int nVertices = 0;
 
     Graph(List<Vertex> vertexList){
-        this.vertexList = new ArrayList<>(MAX_VERTICES);
         for(int[] array : adjMatrix){
             Arrays.fill(array, 0);
         }
@@ -40,7 +40,7 @@ public class Graph {
 
     public static void main(String[] args){
         Graph chessBoard = new Graph(createVertices());
-        chessBoard.knightsTourDFS(new Vertex("H7"));
+        chessBoard.knightsTourDFS(new Vertex("G5"));
     }
 
     /**
@@ -55,13 +55,16 @@ public class Graph {
      56-63: H
      * @return
      */
-    static List<Vertex> createVertices(){
+     static List<Vertex> createVertices(){
         List<Vertex> vertexList = new ArrayList<>();
         char[] labelPrefixes = {'A','B','C','D','E','F','G','H'};
         String label;
         for(int i=0; i<MAX_VERTICES; i++){
             label = ""+labelPrefixes[i/8]+((i%8)+1);
-            vertexList.add(new Vertex(label));
+            System.out.println("i:" + i + " | label: " + label);
+            Vertex newVertex = new Vertex(label);
+            vertexMap.put(label, newVertex);
+            vertexList.add(newVertex);
         }
         return vertexList;
     }
@@ -69,10 +72,16 @@ public class Graph {
     void knightsTourDFS(Vertex sourceNode){
         Deque<Vertex> stack = new ArrayDeque<>();
         stack.push(sourceNode);
-        modifyAdjMatrixForKnight(stack.pop());
-//        while(!stack.isEmpty()){
-//
-//        }
+
+        while(!stack.isEmpty()){
+            Vertex currentVertex = stack.pop();
+            List<Vertex> adjVertices = modifyAdjMatrixForKnight(currentVertex);
+            System.out.println("Current Vertex: " + currentVertex + " | " + "Adjacent unvisited vertices: " + adjVertices);
+            visit(currentVertex);
+            for(Vertex adjVertex : adjVertices){
+                stack.push(adjVertex);
+            }
+        }
     }
 
     /**
@@ -81,10 +90,13 @@ public class Graph {
      * @param currentVertex
      * @return
      */
-    int[][] modifyAdjMatrixForKnight(Vertex currentVertex){
+    List<Vertex> modifyAdjMatrixForKnight(Vertex currentVertex){
+        List<Vertex> adjVertices = new ArrayList<>();
+        String charLabel;
         for(int[] array : adjMatrix){ //clearing the adj matrix
             Arrays.fill(array, 0);
         }
+        char[] labelPrefixes = {'A','B','C','D','E','F','G','H'};
         System.out.println(currentVertex);
         String vertexLabel = currentVertex.getLabel();
         String chessboardIndex = vertexLabelToIndex(vertexLabel);
@@ -95,46 +107,81 @@ public class Graph {
         if(i+2>=0 && i+2<=7){
             if(j+1>=0 && j+1<=7){
                 adjMatrix[i+2][j+1] = 1;
-                adjMatrix[j+1][i+2] = 1;
+                charLabel = labelPrefixes[i+2]+""+(j+1+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
             if(j-1>=0 && j-1<=7){
                 adjMatrix[i+2][j-1] = 1;
-                adjMatrix[j-1][i+2] = 1;
+                charLabel = labelPrefixes[i+2]+""+(j-1+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
         }
         if(i-2>=0 && i-2<=7){
             if(j+1>=0 && j+1<=7){
                 adjMatrix[i-2][j+1] = 1;
-                adjMatrix[j+1][i-2] = 1;
+                charLabel = labelPrefixes[i-2]+""+(j+1+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
             if(j-1>=0 && j-1<=7){
                 adjMatrix[i-2][j-1] = 1;
-                adjMatrix[j-1][i-2] = 1;
+                charLabel = labelPrefixes[i-2]+""+(j);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
-        }if(i+1>=0 && i+1<=7){
+        }
+        if(i+1>=0 && i+1<=7){
             if(j+2>=0 && j+2<=7){
                 adjMatrix[i+1][j+2] = 1;
-                adjMatrix[j+2][i+1] = 1;
+                charLabel = labelPrefixes[i+1]+""+(j+2+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
             if(j-2>=0 && j-2<=7){
                 adjMatrix[i-1][j-2] = 1;
-                adjMatrix[j-2][i-1] = 1;
+                charLabel = labelPrefixes[i+1]+""+(j-2+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
-        }if(i-1>=0 && i-1<=7){
+        }
+        if(i-1>=0 && i-1<=7){
             if(j+2>=0 && j+2<=7){
                 adjMatrix[i-1][j+2] = 1;
-                adjMatrix[j+2][i-1] = 1;
+                charLabel = labelPrefixes[i-1]+""+(j+2+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
             if(j-2>=0 && j-2<=7){
                 adjMatrix[i-1][j-2] = 1;
-                adjMatrix[j-2][i-1] = 1;
+                charLabel = labelPrefixes[i-1]+""+(j-2+1);
+                Vertex adjVertex = vertexMap.get(charLabel);
+                if(!adjVertex.isVisited()){
+                    adjVertices.add(adjVertex);
+                }
             }
         }
         displayAdjMatrix();
-        return adjMatrix;
+        return adjVertices;
     }
 
     void displayAdjMatrix(){
+        System.out.println("-------------------------");
         for(int[] row : adjMatrix){
             System.out.println(Arrays.toString(row));
         }
@@ -156,6 +203,7 @@ public class Graph {
         System.out.println(Arrays.toString(indexChars));
         return indexChars[0] + "" + indexChars[2];
     }
+
 
 
 
