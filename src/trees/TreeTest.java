@@ -68,8 +68,18 @@ public class TreeTest {
         return false;
     }
 
+    /**
+     * in order traversal - visits the nodes in ascending order of value, furthest descendant on the left subtree to the root
+     * and down through the right subtree in order of ascending value.
+     * @param node
+     */
     void inOrderTraversal(NodeTest node){
-
+        if(node!=null){
+            inOrderTraversal(node.left);
+            //Visiting a node, here we will simply just print the node we are visiting
+            System.out.println("Visiting " + node);
+            inOrderTraversal(node.right);
+        }
     }
 
 
@@ -88,6 +98,7 @@ public class TreeTest {
         testTree.insert(new NodeTest(67));
         testTree.insert(new NodeTest(72));
         System.out.println("Found: " + testTree.find(new NodeTest(53)));
+        testTree.inOrderTraversal(rootNode);
 
     }
 }
