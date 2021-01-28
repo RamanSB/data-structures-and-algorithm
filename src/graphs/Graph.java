@@ -10,6 +10,8 @@ public class Graph {
     private int[][] adjMatrix = new int[8][8];
     int nVertices = 0;
 
+    List<Vertex> traversalOrder = new ArrayList<>();
+
     Graph(List<Vertex> vertexList){
         for(int[] array : adjMatrix){
             Arrays.fill(array, 0);
@@ -30,17 +32,18 @@ public class Graph {
             vertexList.add(vertex);
             return true;
         }
-        System.out.println(vertex + " already exists in Graph.");
+        //System.out.println(vertex + " already exists in Graph.");
         return false;
     }
 
     void visit(Vertex vertex){
         vertex.setVisited(true);
+        traversalOrder.add(vertex);
     }
 
     public static void main(String[] args){
         Graph chessBoard = new Graph(createVertices());
-        chessBoard.knightsTourDFS(new Vertex("G5"));
+        chessBoard.knightsTourDFS(new Vertex("H7    "));
     }
 
     /**
@@ -61,7 +64,7 @@ public class Graph {
         String label;
         for(int i=0; i<MAX_VERTICES; i++){
             label = ""+labelPrefixes[i/8]+((i%8)+1);
-            System.out.println("i:" + i + " | label: " + label);
+            //System.out.println("i:" + i + " | label: " + label);
             Vertex newVertex = new Vertex(label);
             vertexMap.put(label, newVertex);
             vertexList.add(newVertex);
@@ -77,11 +80,14 @@ public class Graph {
             Vertex currentVertex = stack.pop();
             List<Vertex> adjVertices = modifyAdjMatrixForKnight(currentVertex);
             System.out.println("Current Vertex: " + currentVertex + " | " + "Adjacent unvisited vertices: " + adjVertices);
-            visit(currentVertex);
+            if(!currentVertex.isVisited()) {
+                visit(currentVertex);
+            }
             for(Vertex adjVertex : adjVertices){
                 stack.push(adjVertex);
             }
         }
+        System.out.println(traversalOrder);
     }
 
     /**
@@ -97,86 +103,86 @@ public class Graph {
             Arrays.fill(array, 0);
         }
         char[] labelPrefixes = {'A','B','C','D','E','F','G','H'};
-        System.out.println(currentVertex);
+        //System.out.println(currentVertex);
         String vertexLabel = currentVertex.getLabel();
         String chessboardIndex = vertexLabelToIndex(vertexLabel);
         int i = Integer.parseInt(chessboardIndex.substring(0,1));
         int j = Integer.parseInt(chessboardIndex.substring(1,2)) - 1;
-        System.out.println("Chessboad Index: " + chessboardIndex);
-        System.out.println("Index on chessboard: " + i+","+j);
+        //System.out.println("Chessboad Index: " + chessboardIndex);
+        //System.out.println("Index on chessboard: " + i+","+j);
         if(i+2>=0 && i+2<=7){
             if(j+1>=0 && j+1<=7){
-                adjMatrix[i+2][j+1] = 1;
                 charLabel = labelPrefixes[i+2]+""+(j+1+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i+2][j+1] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
             if(j-1>=0 && j-1<=7){
-                adjMatrix[i+2][j-1] = 1;
                 charLabel = labelPrefixes[i+2]+""+(j-1+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i+2][j-1] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
         }
         if(i-2>=0 && i-2<=7){
             if(j+1>=0 && j+1<=7){
-                adjMatrix[i-2][j+1] = 1;
                 charLabel = labelPrefixes[i-2]+""+(j+1+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i-2][j+1] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
             if(j-1>=0 && j-1<=7){
-                adjMatrix[i-2][j-1] = 1;
                 charLabel = labelPrefixes[i-2]+""+(j);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i-2][j-1] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
         }
         if(i+1>=0 && i+1<=7){
             if(j+2>=0 && j+2<=7){
-                adjMatrix[i+1][j+2] = 1;
                 charLabel = labelPrefixes[i+1]+""+(j+2+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i+1][j+2] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
             if(j-2>=0 && j-2<=7){
-                adjMatrix[i-1][j-2] = 1;
                 charLabel = labelPrefixes[i+1]+""+(j-2+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i-1][j-2] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
         }
         if(i-1>=0 && i-1<=7){
             if(j+2>=0 && j+2<=7){
-                adjMatrix[i-1][j+2] = 1;
                 charLabel = labelPrefixes[i-1]+""+(j+2+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i-1][j+2] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
             if(j-2>=0 && j-2<=7){
-                adjMatrix[i-1][j-2] = 1;
                 charLabel = labelPrefixes[i-1]+""+(j-2+1);
                 Vertex adjVertex = vertexMap.get(charLabel);
                 if(!adjVertex.isVisited()){
+                    adjMatrix[i-1][j-2] = 1;
                     adjVertices.add(adjVertex);
                 }
             }
         }
-        displayAdjMatrix();
+        //displayAdjMatrix();
         return adjVertices;
     }
 
@@ -200,7 +206,7 @@ public class Graph {
         letterToIndexMap.put('H', 7);
         indexChars[0] = String.valueOf(letterToIndexMap.get(label.charAt(0))).charAt(0);
         indexChars[2] = label.charAt(1);
-        System.out.println(Arrays.toString(indexChars));
+        //System.out.println(Arrays.toString(indexChars));
         return indexChars[0] + "" + indexChars[2];
     }
 
