@@ -1,4 +1,4 @@
-package graphs;
+package knightstour;
 
 public class Vertex {
 
@@ -12,7 +12,7 @@ public class Vertex {
 
     @Override
     public String toString(){
-        return "Vertex: " + label;
+        return "Vertex: " + label + "|" + visited;
     }
 
     @Override
