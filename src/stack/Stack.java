@@ -25,15 +25,17 @@ public class Stack {
     }
 
     void push(int elem){
-        if(top+1 >= this.maxSize){
-            top=-1;
-        }
         nElems++;
         array[++top] = elem;
     }
 
     int pop(){
+        nElems--;
         return array[top--];
+    }
+
+    boolean isEmpty(){
+        return nElems==0 || top==-1;
     }
 
     @Override
