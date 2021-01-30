@@ -6,13 +6,11 @@ import java.util.Deque;
 
 public class Stack {
 
-    int nElems;
     int maxSize;
     int top;
     int[] array;
 
     Stack(int maxSize){
-        nElems = 0;
         top = -1;
         if(maxSize>=0) {
             this.maxSize = maxSize;
@@ -25,22 +23,24 @@ public class Stack {
     }
 
     void push(int elem){
-        nElems++;
         array[++top] = elem;
     }
 
     int pop(){
-        nElems--;
         return array[top--];
     }
 
     boolean isEmpty(){
-        return nElems==0 || top==-1;
+        return top==-1;
     }
 
     @Override
     public String toString(){
         return Arrays.toString(array) + " | top = " + this.top;
+    }
+
+    public int size(){
+        return array.length;
     }
 
     public static void main(String[] args){
@@ -64,6 +64,7 @@ public class Stack {
         System.out.println(stackX);
         stackX.push(35);
         System.out.println(stackX);
+        stackX.push(4);
 
     }
 }
