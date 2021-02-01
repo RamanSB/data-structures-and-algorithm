@@ -30,9 +30,14 @@ public class LinkedListSolutions {
         linkedList.insertFirst(7);
         linkedList.insertFirst(3);
         System.out.println(linkedList);
-        //System.out.println("Removing duplicates");
-        //LinkedListSolutions.removeDuplicates(linkedList);
-        System.out.println(LinkedListSolutions.kthToLastElement(linkedList, 8));
+        System.out.println("Removing duplicates");
+        LinkedListSolutions.removeDuplicates(linkedList);
+        System.out.println(linkedList);
+        System.out.println(LinkedListSolutions.kthToLastElement(linkedList, 4));
+        System.out.println(linkedList);
+        LinkedListSolutions.deleteLink(linkedList, linkedList.new Link(6));
+        System.out.println(linkedList);
+        LinkedListSolutions.deleteLink(linkedList, linkedList.new Link(9));
         System.out.println(linkedList);
     }
 
@@ -69,4 +74,23 @@ public class LinkedListSolutions {
         }
         return current;
     }
+
+    static LinkedList.Link deleteLink(LinkedList linkedList, LinkedList.Link link){
+        LinkedList.Link prev = linkedList.first;
+        LinkedList.Link current = linkedList.first;
+        while(current != null){
+            if (link.equals(current)) {
+                if(link.equals(linkedList.first)){ //Lines 83-85 aren't necessary for this question, it ensures the 1st elem can also be deleted.
+                    linkedList.first = linkedList.first.next;
+                }
+                LinkedList.Link temp = current;
+                prev.next = current.next;
+                return temp;
+            }
+            prev = current;
+            current = current.next;
+        }
+        return null;
+    }
+
 }
