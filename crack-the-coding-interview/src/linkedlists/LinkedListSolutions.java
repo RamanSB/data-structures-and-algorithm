@@ -25,20 +25,23 @@ public class LinkedListSolutions {
         linkedList.insertFirst(7);
         linkedList.insertFirst(6);
         linkedList.insertFirst(2);
+        linkedList.insertFirst(5);
         linkedList.insertFirst(1);
         linkedList.insertFirst(2);
         linkedList.insertFirst(7);
         linkedList.insertFirst(3);
         System.out.println(linkedList);
         System.out.println("Removing duplicates");
-        LinkedListSolutions.removeDuplicates(linkedList);
-        System.out.println(linkedList);
-        System.out.println(LinkedListSolutions.kthToLastElement(linkedList, 4));
-        System.out.println(linkedList);
-        LinkedListSolutions.deleteLink(linkedList, linkedList.new Link(6));
-        System.out.println(linkedList);
-        LinkedListSolutions.deleteLink(linkedList, linkedList.new Link(9));
-        System.out.println(linkedList);
+        System.out.println(LinkedListSolutions.kthToLastElement(linkedList, 4));;
+        LinkedList linkedList1 = new LinkedList();
+        LinkedList linkedList2 = new LinkedList();
+        linkedList1.insertFirst(6);
+        linkedList1.insertFirst(1);
+        linkedList1.insertFirst(7);
+        linkedList2.insertFirst(2);
+        linkedList2.insertFirst(9);
+        linkedList2.insertFirst(5);
+        System.out.println(sumLists(linkedList1, linkedList2));
     }
 
     static LinkedList removeDuplicates(LinkedList linkedList){
@@ -75,12 +78,12 @@ public class LinkedListSolutions {
         return current;
     }
 
-    static LinkedList.Link deleteLink(LinkedList linkedList, LinkedList.Link link){
+    static LinkedList.Link deleteLink(LinkedList linkedList, LinkedList.Link link) {
         LinkedList.Link prev = linkedList.first;
         LinkedList.Link current = linkedList.first;
-        while(current != null){
+        while (current != null) {
             if (link.equals(current)) {
-                if(link.equals(linkedList.first)){ //Lines 83-85 aren't necessary for this question, it ensures the 1st elem can also be deleted.
+                if (link.equals(linkedList.first)) { //Lines 83-85 aren't necessary for this question, it ensures the 1st elem can also be deleted.
                     linkedList.first = linkedList.first.next;
                 }
                 LinkedList.Link temp = current;
@@ -92,5 +95,38 @@ public class LinkedListSolutions {
         }
         return null;
     }
+
+
+    static int sumLists(LinkedList linkedList1, LinkedList linkedList2){
+        System.out.println("Linked list 1: " + linkedList1);
+        System.out.println("Linked list 2: " + linkedList2);
+        int count = 0;
+        LinkedList.Link current1 = linkedList1.first;
+        while(current1 != null){
+            count++;
+            current1 = current1.next;
+        }
+
+        int sum = 0;
+        current1 = linkedList1.first;
+        for(int i=0; i<count; i++){
+            sum += (current1.data * Math.pow(10, i));
+            current1 = current1.next;
+        }
+
+        LinkedList.Link current2 = linkedList2.first;
+        count = 0;
+        while(current2 != null){
+            count++;
+            current2 = current2.next;
+        }
+        current2 = linkedList2.first;
+        for(int i=0; i<count; i++){
+            sum += (current2.data * Math.pow(10, i));
+            current2 = current2.next;
+        }
+        return sum;
+    }
+
 
 }
