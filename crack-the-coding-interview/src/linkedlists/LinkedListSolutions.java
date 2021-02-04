@@ -54,6 +54,11 @@ public class LinkedListSolutions {
         System.out.println(isPalindrome(linkedList3));
         System.out.println(isPalindrome(linkedList1));
         System.out.println(isPalindrome(linkedList2));
+        System.out.println(isPalindromeRecursive(linkedList3, true));
+        System.out.println(isPalindromeRecursive(linkedList2, true));
+
+
+
     }
 
     static LinkedList removeDuplicates(LinkedList linkedList){
@@ -157,6 +162,10 @@ public class LinkedListSolutions {
         return sum;
     }
 
+    /*
+    This can be done using a stack, as I have done - by finding the middle of the list (if list is odd, skip middle link & remove it)
+    - reverse the 2nd half of the linkedlist and compare to the 1st half. Or use recursion (see below)
+     */
     static boolean isPalindrome(LinkedList linkedList){
         boolean isPalindrome = false;
         Deque<Integer> stack = new ArrayDeque<>();
@@ -175,6 +184,42 @@ public class LinkedListSolutions {
             current = current.next;
         }
         return isPalindrome;
+    }
+
+    /**
+     * 1) Start at the 1st node of a linked list
+     * 2) Iterate through to the final node.
+     * 3) Compare then nodes if unequal, return false - else continue
+     * 4) Delete both the 1st node and last node from the linked list and recurse.
+     * @param linkedList
+     * @param flag
+     * @return
+     */
+    static int count = 0;
+
+    static boolean isPalindromeRecursive(LinkedList linkedList, boolean flag){
+        System.out.println(++count + ")" + " Linked list: " + linkedList);
+        if(!flag){
+            return flag;
+        }
+        if(linkedList.first == null){
+            return flag;
+        }
+        else{
+            LinkedList.Link current = linkedList.first;
+            LinkedList.Link prev = current;
+            while(current.next != null){
+                prev = current;
+                current = current.next;
+            }
+            if(current.data == linkedList.first.data){
+                prev.next = null;
+                linkedList.first = linkedList.first.next;
+            }else{
+                return false;
+            }
+            return isPalindromeRecursive(linkedList, flag);
+        }
     }
 
 
