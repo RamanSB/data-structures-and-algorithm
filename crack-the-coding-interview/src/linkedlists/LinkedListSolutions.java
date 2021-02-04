@@ -1,5 +1,7 @@
 package linkedlists;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,17 @@ public class LinkedListSolutions {
         linkedList2.insertFirst(2);
         linkedList2.insertFirst(9);
         linkedList2.insertFirst(5);
-        System.out.println(sumLists(linkedList1, linkedList2));
+        System.out.println(sumListsReverseOrder(linkedList1, linkedList2));
+        System.out.println(sumListInOrder(linkedList1, linkedList2));
+        LinkedList linkedList3 = new LinkedList();
+        linkedList3.insertFirst(4);
+        linkedList3.insertFirst(2);
+        linkedList3.insertFirst(1);
+        linkedList3.insertFirst(2);
+        linkedList3.insertFirst(4);
+        System.out.println(isPalindrome(linkedList3));
+        System.out.println(isPalindrome(linkedList1));
+        System.out.println(isPalindrome(linkedList2));
     }
 
     static LinkedList removeDuplicates(LinkedList linkedList){
@@ -97,7 +109,7 @@ public class LinkedListSolutions {
     }
 
 
-    static int sumLists(LinkedList linkedList1, LinkedList linkedList2){
+    static int sumListsReverseOrder(LinkedList linkedList1, LinkedList linkedList2){
         System.out.println("Linked list 1: " + linkedList1);
         System.out.println("Linked list 2: " + linkedList2);
         int count = 0;
@@ -109,7 +121,7 @@ public class LinkedListSolutions {
 
         int sum = 0;
         current1 = linkedList1.first;
-        for(int i=0; i<count; i++){
+        for(int i=count-1; i>=0; i--){
             sum += (current1.data * Math.pow(10, i));
             current1 = current1.next;
         }
@@ -121,11 +133,48 @@ public class LinkedListSolutions {
             current2 = current2.next;
         }
         current2 = linkedList2.first;
-        for(int i=0; i<count; i++){
+        for(int i=count-1; i>=0; i--){
             sum += (current2.data * Math.pow(10, i));
             current2 = current2.next;
         }
         return sum;
+    }
+
+    static int sumListInOrder(LinkedList linkedList1, LinkedList linkedList2){
+        int sum = 0;
+        int count = 0;
+        LinkedList.Link current = linkedList1.first;
+        while(current!=null){
+            sum+=(current.data * Math.pow(10, count++));
+            current = current.next;
+        }
+        count = 0;
+        current = linkedList2.first;
+        while(current!=null){
+            sum+=(current.data * Math.pow(10, count++));
+            current = current.next;
+        }
+        return sum;
+    }
+
+    static boolean isPalindrome(LinkedList linkedList){
+        boolean isPalindrome = false;
+        Deque<Integer> stack = new ArrayDeque<>();
+        LinkedList.Link current = linkedList.first;
+        while(current != null){
+            stack.push(current.data);
+            current = current.next;
+        }
+        System.out.println(stack);
+        current = linkedList.first;
+        for(int i=0; i<stack.size(); i++){
+            isPalindrome = (stack.pop()==current.data);
+            if(!isPalindrome){
+                break;
+            }
+            current = current.next;
+        }
+        return isPalindrome;
     }
 
 
