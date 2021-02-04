@@ -57,6 +57,22 @@ public class LinkedListSolutions {
         System.out.println(isPalindromeRecursive(linkedList3, true));
         System.out.println(isPalindromeRecursive(linkedList2, true));
 
+        LinkedList list4 = new LinkedList();
+        LinkedList list5 = new LinkedList();
+        LinkedList.Link link = list4.new Link(5);
+        list4.insertFirst(7);
+        list4.insertFirstLink(link, 5);
+        list4.insertFirst(4);
+        list4.insertFirst(1);
+
+        list5.insertFirst(7);
+        list5.insertFirstLink(link, 5);
+        list5.insertFirst(6);
+        list5.insertFirst(2);
+
+        System.out.println(LinkedListSolutions.intersection(list4, list5));
+
+
 
 
     }
@@ -222,5 +238,40 @@ public class LinkedListSolutions {
         }
     }
 
+    static LinkedList.Link intersection(LinkedList linkedList1, LinkedList linkedList2){
+        LinkedList.Link current = linkedList1.first;
+        int offset = 0;
+        while(current!=null){
+            offset++;
+            current = current.next;
+        }
+        current = linkedList2.first;
+        while(current!=null){
+            offset--;
+            current = current.next;
+        }
+        if(offset < 0){ //List 2 is longer
+            current = linkedList2.first;
+            for(int i=offset; i<0; i++){
+                current = current.next;
+            }
+        }else{
+            current = linkedList1.first;
+            for(int i=0; i<offset; i++){
+                current = current.next;
+            }
+        }
+        LinkedList.Link comparisonRef = (offset < 0) ? linkedList1.first : linkedList2.first;
+        while(current != null || comparisonRef!=null){
+            if(current == comparisonRef){
+                System.out.println("The intersecting link is: " + current);
+                return current;
+            }
+            current = current.next;
+            comparisonRef = comparisonRef.next;
+        }
+        return null;
+
+    }
 
 }
