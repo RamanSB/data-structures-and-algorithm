@@ -14,6 +14,8 @@ package treesandgraphs;
  *
  *  I believe the time complexuity is O(n/2 + n/2) = O(n) where n is the size of the inputArray & the space complexity
  *  O(2^n)? As the code recurses twice for each node?
+ *
+ *  Code doesn't work non-perfect cases should've used start & end indices.
  */
 public class MinimalTree {
 
@@ -29,7 +31,7 @@ public class MinimalTree {
     }
 
     public static void main(String[] args){
-        int[] arr = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        int[] arr = {1,2,3,4,5,6,7,8,9};
         MinimalTree tree = new MinimalTree(arr);
         calculateMinimumDepth(arr);
         tree.createMinimalTree(arr, tree.root);
@@ -47,7 +49,7 @@ public class MinimalTree {
         }
         int[] rightArr = new int[inputArray.length/2];
         for(int i=0; i<inputArray.length/2; i++) {
-            rightArr[i] = inputArray[1 + i + inputArray.length / 2];
+            rightArr[i] = inputArray[1 + i + (inputArray.length / 2)];
         }
         node.left = new Node(leftArr[leftArr.length/2]);
         node.right = new Node(rightArr[rightArr.length/2]);
