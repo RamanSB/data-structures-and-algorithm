@@ -1,52 +1,49 @@
 package graphs.directed;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
- * This class finds all paths from a source vertex to another vertex whereby nodes can only be visited once.
+ * This class is responsible for determining all paths from a source vertex to a destination vertex using
+ * backtracking (DFS).
  */
-class FindAllPathsFromSource {
+class FindAllPathsFromSourceToDestination {
 
     public static void main(String[] args) {
 
         int n=5;
-        int[][] edges = {{0, 1}, {0, 2}, {1, 3}, {2, 3}, {2, 4}, {3, 4}, {4, 1}};
+        int[][] edges = {{0, 1}, {0, 2}, {1, 3}, {2, 3}, {2, 4}, {3, 4}, {4, 1}, {2, 1}};
 
         // Generating adjacencyList
         List<List<Integer>> adjacencyList = generateAdjacencyList(n, edges);
         // Select source vertex.
         int sourceVertex = 0;
+        int destinationVertex = 4;
         // Find all paths from sourceVertex that traverse all nodes only once.
         List<List<Integer>> solutions = new ArrayList<>();
-        generatePathFromSource(sourceVertex, adjacencyList, new ArrayList<>(), solutions, new HashSet<Integer>());
+        List<Integer> currentPath = new ArrayList<>();
+        currentPath.add(sourceVertex);
+        backtrack(currentPath, sourceVertex, destinationVertex, solutions, adjacencyList);
         System.out.println(solutions);
     }
 
-    private static void generatePathFromSource(
-            int sourceVertex,
-            List<List<Integer>> adjacencyList,
-            List<Integer> path,
+    private static void backtrack(
+            List<Integer> currentPath,
+            int currentVertex,
+            int destinationVertex,
             List<List<Integer>> solutions,
-            Set<Integer> visited) {
+            List<List<Integer>> adjacencyList) {
 
-        if (adjacencyList.get(sourceVertex).isEmpty() || visited.containsAll(adjacencyList.get(sourceVertex))) {
-            path.add(sourceVertex);
-            solutions.add(path);
+        if (currentVertex == destinationVertex) {
+            solutions.add(new ArrayList<>(currentPath));
             return;
         }
 
-        path.add(sourceVertex);
-        visited.add(sourceVertex);
-        for (int neighbor: adjacencyList.get(sourceVertex)) {
-            if (!visited.contains(neighbor)) {
-                generatePathFromSource(neighbor, adjacencyList, new ArrayList<>(path), solutions, new HashSet<>(visited));
-            }
+        for (Integer neighbor: adjacencyList.get(currentVertex)) {
+            currentPath.add(neighbor);
+            backtrack(new ArrayList<>(currentPath), neighbor, destinationVertex, solutions, adjacencyList);
+            currentPath.remove(neighbor);
         }
-        path.remove(new Integer(sourceVertex));
-        visited.remove(sourceVertex);
     }
 
     private static List<List<Integer>> generateAdjacencyList(int n, int[][] edges) {
