@@ -62,12 +62,9 @@ function rotateB(nums: number[], k: number): void {
     reverse(nums, 0, nums.length - 1);
     reverse(nums, 0, trueK - 1);
     reverse(nums, trueK, nums.length - 1);
-
-
 };
 
 function reverse(nums: number[], start: number, end: number): number[] {
-
     while (start < end) {
         let temp = nums[start];
         nums[start] = nums[end];
@@ -81,6 +78,3 @@ function reverse(nums: number[], start: number, end: number): number[] {
 const nums: number[] = [1, 2, 3, 4, 5, 6, 7]
 const k: number = 3;
 
-// rotate(nums, k);
-console.log(reverse(nums));
-console.log(reverse([1, 2, 3, 4]));
