@@ -47,5 +47,4 @@ function maxSubArrayB(nums: number[]): number {
         }
     }
     return global;
-
 }
