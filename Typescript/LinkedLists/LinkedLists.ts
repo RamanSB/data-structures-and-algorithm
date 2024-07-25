@@ -116,6 +116,23 @@ class LinkedList<T> implements ILinkedList<T> {
         }
         console.log(values);
     }
+
+    reverseLinkedList(head: ListNode<T> | null) {
+        if (!head) {
+            return head;
+        }
+        let prev: ListNode<T> | null = null;
+        let current: ListNode<T> | null = head;
+        while (current) {
+            let next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
+    }
+
+
 }
 
 function demoSinglyLinkedList() {
@@ -136,4 +153,15 @@ function demoSinglyLinkedList() {
     ll.printList();
 }
 
-demoSinglyLinkedList();
+// demoSinglyLinkedList();
+
+const ll: LinkedList<number> = new LinkedList<number>();
+ll.insertAtHead(3);
+ll.insertAtTail(2);
+ll.insertAtTail(1);
+ll.insertAtTail(0);
+
+ll.printList();
+
+
+
