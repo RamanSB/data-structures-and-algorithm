@@ -72,4 +72,51 @@ class BinarySearchTree<T> implements IBinarySearchTree<T> {
         return null;
     }
 
+    visit(node: TreeNode<T> | null) {
+        console.log(node?.data);
+    }
+
+    inorderTraversal(root: TreeNode<T> | null) {
+        if (!root) {
+            return;
+        }
+
+        this.inorderTraversal(root.left);
+        this.visit(root);
+        this.inorderTraversal(root.right);
+    }
+
+    preorderTraversal(root: TreeNode<T> | null) {
+        if (!root) {
+            return;
+        }
+
+        this.visit(root);
+        this.preorderTraversal(root.left);
+        this.preorderTraversal(root.right);
+    }
+
+    postOrderTraversal(root: TreeNode<T> | null) {
+        if (!root) {
+            return;
+        }
+
+        this.postOrderTraversal(root.left);
+        this.postOrderTraversal(root.right);
+        this.visit(root);
+    }
 }
+
+const bst: BinarySearchTree<number> = new BinarySearchTree();
+bst.insert(4);
+bst.insert(3);
+bst.insert(2);
+bst.insert(6);
+bst.insert(5);
+bst.insert(7);
+console.log("In order traversal")
+bst.inorderTraversal(bst.root);
+console.log("Pre order traversal")
+bst.preorderTraversal(bst.root);
+console.log("Post order traversal")
+bst.postOrderTraversal(bst.root);
