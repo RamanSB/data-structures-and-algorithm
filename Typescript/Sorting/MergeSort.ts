@@ -26,7 +26,6 @@ function merge(arr: any[], l: number, m: number, r: number): void {
 
     for (let j = 0; j < l2; j++) {
         right[j] = arr[m + 1 + j];
-
     }
 
 
@@ -59,3 +58,32 @@ function merge(arr: any[], l: number, m: number, r: number): void {
 }
 
 console.log(mergeSort([3, 1, 5, 1, 92912, 412, 21, 0], 0, [3, 1, 5, 1, 92912, 412, 21, 0].length - 1))
+
+function mergeSortA(arr: any[], l: number, r: number): any[] {
+    if (l < r) {
+        let m = Math.floor((l + r) / 2);
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        mergeA(arr, l, m, r);
+    }
+    return arr;
+}
+
+function mergeA(arr, l, m, r) {
+    let l1 = m - l + 1;
+    let l2 = r - m;
+
+    let left = new Array(l1);
+    let right = new Array(l2);
+
+    for (let i = 0; i < l1; i++) {
+        left[i] = arr[l + i];
+    }
+    for (let j = 0; j < l2; j++) {
+        right[j] = arr[m + 1 + j];
+    }
+
+    let i = 0, j = 0, k = l;
+    while (i)
+}
+

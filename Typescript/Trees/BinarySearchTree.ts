@@ -105,6 +105,37 @@ class BinarySearchTree<T> implements IBinarySearchTree<T> {
         this.postOrderTraversal(root.right);
         this.visit(root);
     }
+
+
+    bfs(root: TreeNode<T> | null): string {
+        if (!root) {
+            return "";
+        }
+
+        let bfsPath = "";
+
+        const queue = [root];
+        let level = 0;
+        while (queue.length) {
+            console.log("Level: ", level)
+            const numberOfNodesInLevel: number = queue.length;
+            for (let i = 0; i < numberOfNodesInLevel; i++) {
+                let current: TreeNode<T> | null = queue.shift() as TreeNode<T>;
+                console.log(current.data);
+                bfsPath += current.data + " -> "
+                if (current.left) {
+                    queue.push(current.left);
+                }
+                if (current.right) {
+                    queue.push(current.right);
+                }
+            }
+            level++;
+        }
+        const result = bfsPath.substring(0, bfsPath.lastIndexOf("->"));
+        console.log(result);
+        return result;
+    }
 }
 
 const bst: BinarySearchTree<number> = new BinarySearchTree();
@@ -114,9 +145,11 @@ bst.insert(2);
 bst.insert(6);
 bst.insert(5);
 bst.insert(7);
-console.log("In order traversal")
+/* console.log("In order traversal")
 bst.inorderTraversal(bst.root);
 console.log("Pre order traversal")
 bst.preorderTraversal(bst.root);
 console.log("Post order traversal")
-bst.postOrderTraversal(bst.root);
+bst.postOrderTraversal(bst.root); */
+
+bst.bfs(bst.root);
